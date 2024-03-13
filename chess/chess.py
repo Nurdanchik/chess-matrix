@@ -102,7 +102,7 @@ class Chessboard:
                     x -= 1
                     y += 1
 
-                # Проверка вниз лево
+                # Проверка вниз влево
                 x, y = from_row + 1, from_col - 1
                 while x <= 7 and y >= 0:
                     if x == to_row and y == to_col:
