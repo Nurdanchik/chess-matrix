@@ -18,6 +18,8 @@ class Chessboard:
             [-4, -2, -3, -6, -5, -3, -2, -4]
         ]
         self.move_history = []
+        self.white = True
+        self.black = False
 
     def display(self):
         # Вывод заголовков столбцов
@@ -60,26 +62,32 @@ class Chessboard:
 
         # Проверка правил для каждой фигуры
         piece = self.board[from_row][from_col]
-        if piece == 1: # Пешка
-            if (self.board[to_row][to_col] == 0 and ((to_row - from_row) == 1 and (to_col == from_col))):
-                self.board[to_row][to_col] = piece
-                self.board[from_row][from_col] = 0
-        elif piece == -1:  # Пешка
-            if (self.board[to_row][to_col] == 0 and ((to_row - from_row) == -1 and (to_col == from_col))):
-                self.board[to_row][to_col] = piece
-                self.board[from_row][from_col] = 0
-            else:
-                print("Неверный ход для пешки. Пожалуйста, проверьте шахматные правила.")
-        print(from_row, from_col, to_row, to_col)
-        if piece == 2 or piece == -2: # Конь
-            if (self.board[to_row][to_col] == 0 and (((abs(to_row - from_row) == 2) and (abs(to_col - from_col) == 1)) or ((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 2)))) or (self.board[to_row][to_col] == 0 and (((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 2)) or ((abs(to_row - from_row) == 2) and (abs(to_col - from_col) == 1)))):
-                self.board[to_row][to_col] = piece
-                self.board[from_row][from_col] = 0
-            else:
-                print("Неверный ход для коня. Пожалуйста, проверьте шахматные правила.")
+        # Белые фигуры
+        if self.white == True:
+            if piece == 1: # Пешка
+                if (self.board[to_row][to_col] == 0 and ((to_row - from_row) == 1 and (to_col == from_col))):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.black = True
+                    self.white = False
+                elif self.board[to_row][to_col] != 0 and ((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 1)):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.black = True
+                    self.white = False
+                else:
+                    print("Неверный ход для пешки. Пожалуйста, проверьте шахматные правила.")
 
-        if piece == 3: # Слон белых
-            if self.board[to_row][to_col] == 0:
+            if piece == 2: # Конь
+                if (self.board[to_row][to_col] <= 0 and (((abs(to_row - from_row) == 2) and (abs(to_col - from_col) == 1)) or ((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 2)))) or (self.board[to_row][to_col] == 0 and (((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 2)) or ((abs(to_row - from_row) == 2) and (abs(to_col - from_col) == 1)))):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.black = True
+                    self.white = False
+                else:
+                    print("Неверный ход для коня. Пожалуйста, проверьте шахматные правила.")
+
+            if piece == 3: # Слон белых
                 is_move = False
 
                 # Проверка влево вверх
@@ -125,66 +133,12 @@ class Chessboard:
                 if is_move:
                     self.board[to_row][to_col] = piece
                     self.board[from_row][from_col] = 0
+                    self.black = True
+                    self.white = False
                 else:
                     print("Неверный ход для слона. Пожалуйста, проверьте шахматные правила.")
 
-            else:
-                print('Слону мешает препятсвие.')
-        if piece == -3: # Слон черных
-            if self.board[to_row][to_col] == 0:
-                is_move = False
-
-                # Проверка влево вверх
-                x, y = from_row - 1, from_col - 1
-                while x >= 0 and y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
-                    y -= 1
-
-                # Проверка вправо вверх
-                x, y = from_row - 1, from_col + 1
-                while x >= 0 and y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
-                    y += 1
-
-                # Проверка вниз влево
-                x, y = from_row + 1, from_col - 1
-                while x <= 7 and y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
-                    y -= 1
-
-                # Проверка вниз вправо
-                x, y = from_row + 1, from_col + 1
-                while x <= 7 and y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
-                    y += 1
-
-                if is_move:
-                    self.board[to_row][to_col] = piece
-                    self.board[from_row][from_col] = 0
-                else:
-                    print("Неверный ход для слона. Пожалуйста, проверьте шахматные правила.")
-
-            else:
-                print('Слону мешает препятсвие.')
-
-        if piece == 4 or piece == -4:  # Ладья
-            if self.board[to_row][to_col] == 0:
+            if piece == 4:  # Ладья
                 is_move = False
 
                 # Проверка влево
@@ -226,15 +180,12 @@ class Chessboard:
                 if is_move:
                     self.board[to_row][to_col] = piece
                     self.board[from_row][from_col] = 0
+                    self.black = True
+                    self.white = False
                 else:
                     print("Неверный ход для ладьи. Пожалуйста, проверьте шахматные правила.")
-            else:
-                print('Ладье мешает препятсвие.')
 
-                
-
-        if piece == 5 or piece == -5:
-            if self.board[to_row][to_col] == 0:
+            if piece == 5:
                 is_move = False
 
                 # Проверка влево вверх
@@ -316,12 +267,227 @@ class Chessboard:
                 if is_move:
                     self.board[to_row][to_col] = piece
                     self.board[from_row][from_col] = 0
+                    self.black = True
+                    self.white = False
                 
                 else:
                     print("Неверный ход для ферзя. Пожалуйста, проверьте шахматные правила.")
-            else:
-                print('Ферзю мешает препятсвие.')
 
+        else:
+            print('Не твоя очередь ходить. Очередь черных.')
+
+        if self.black == True:
+            if piece == -1:  # Пешка
+                if (self.board[to_row][to_col] == 0 and ((to_row - from_row) == -1 and (to_col == from_col))):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.white = True
+                    self.black = False
+                elif self.board[to_row][to_col] != 0 and ((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 1)):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.white = True
+                    self.black = False
+                else:
+                    print("Неверный ход для пешки. Пожалуйста, проверьте шахматные правила.")
+
+            if piece == -2: # Конь
+                if (self.board[to_row][to_col] >= 0 and (((abs(to_row - from_row) == 2) and (abs(to_col - from_col) == 1)) or ((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 2)))) or (self.board[to_row][to_col] == 0 and (((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 2)) or ((abs(to_row - from_row) == 2) and (abs(to_col - from_col) == 1)))):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.white = True
+                    self.black = False
+                else:
+                    print("Неверный ход для коня. Пожалуйста, проверьте шахматные правила.")
+
+            if piece == -3: # Слон
+                is_move = False
+
+                # Проверка влево вверх
+                x, y = from_row - 1, from_col - 1
+                while x >= 0 and y >= 0:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x -= 1
+                    y -= 1
+
+                # Проверка вправо вверх
+                x, y = from_row - 1, from_col + 1
+                while x >= 0 and y <= 7:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x -= 1
+                    y += 1
+
+                # Проверка вниз влево
+                x, y = from_row + 1, from_col - 1
+                while x <= 7 and y >= 0:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x += 1
+                    y -= 1
+
+                # Проверка вниз вправо
+                x, y = from_row + 1, from_col + 1
+                while x <= 7 and y <= 7:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x += 1
+                    y += 1
+
+                if is_move:
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.white = True
+                    self.black = False
+                else:
+                    print("Неверный ход для слона. Пожалуйста, проверьте шахматные правила.")
+
+            if piece == -4:  # Ладья
+                is_move = False
+
+                # Проверка влево
+                x, y = from_row, from_col - 1
+                while y >= 0:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    y -= 1
+
+                # Проверка вправо
+                x, y = from_row, from_col + 1
+                while y <= 7:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    y += 1
+
+                # Проверка вверх
+                x, y = from_row - 1, from_col
+                while x >= 0:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x -= 1
+
+                # Проверка вниз
+                x, y = from_row + 1, from_col
+                while x <= 7:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x += 1
+
+                if is_move:
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.white = True
+                    self.black = False
+                else:
+                    print("Неверный ход для ладьи. Пожалуйста, проверьте шахматные правила.")
+                
+            if piece == -5:
+                is_move = False
+
+                # Проверка влево вверх
+                x, y = from_row - 1, from_col - 1
+                while x >= 0 and y >= 0:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x -= 1
+                    y -= 1
+
+                # Проверка вправо вверх
+                x, y = from_row - 1, from_col + 1
+                while x >= 0 and y <= 7:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x -= 1
+                    y += 1
+
+                # Проверка вниз влево
+                x, y = from_row + 1, from_col - 1
+                while x <= 7 and y >= 0:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x += 1
+                    y -= 1
+
+                # Проверка вниз вправо
+                x, y = from_row + 1, from_col + 1
+                while x <= 7 and y <= 7:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x += 1
+                    y += 1
+
+                # Проверка влево
+                x, y = from_row, from_col - 1
+                while y >= 0:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    y -= 1
+
+                # Проверка вправо
+                x, y = from_row, from_col + 1
+                while y <= 7:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    y += 1
+
+                # Проверка вверх
+                x, y = from_row - 1, from_col
+                while x >= 0:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x -= 1
+
+                # Проверка вниз
+                x, y = from_row + 1, from_col
+                while x <= 7:
+                    if x == to_row and y == to_col:
+                        is_move = True
+                    if self.board[x][y] != 0:
+                        break
+                    x += 1
+
+                if is_move:
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.white = True
+                    self.black = False
+                
+                else:
+                    print("Неверный ход для ферзя. Пожалуйста, проверьте шахматные правила.")
+    
+        else:
+            print('Не твоя очередь ходить. Очередь белых.')
 
     def is_valid_input(self, position):
         # Проверка, что ввод содержит два символа: букву и цифру
