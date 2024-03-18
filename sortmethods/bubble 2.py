@@ -2,7 +2,7 @@
 
 import random 
 
-array = [13, 6, 8, 10, 7, 9]
+array = [random.randint(0, 10) for _ in range(10)]
 
 def bubbleSort(arr):
     if len(arr) <= 1:

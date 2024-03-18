@@ -48,25 +48,3 @@
 # display = TicTacToe()
 
 # print(display.display())
-
-import random
-
-# Создаем два массива случайных чисел
-array = []
-array2 = []
-
-for i in range(10):
-    num = [random.randint(0, 10)]
-    num2 = [random.randint(10, 20)]
-    array.append(num)
-    array2.append(num2)
-
-print("Array 1:", array)
-print("Array 2:", array2)
-
-arraysum = []
-
-for i in range(len(array)):
-    arraysum.append(array[i] + array2[i])
-
-print("Sum of arrays:", arraysum)

@@ -52,7 +52,7 @@ class Chessboard:
         # Преобразование координат в индексы для обновления доски
         from_row, from_col = int(from_where[1]) - 1, ord(from_where[0]) - ord('a')
         to_row, to_col = int(to_where[1]) - 1, ord(to_where[0]) - ord('a')
-        print(from_row, from_col, to_row,to_col)
+        # print(from_row, from_col, to_row,to_col)
 
 
 
@@ -65,7 +65,12 @@ class Chessboard:
         # Белые фигуры
         if self.white == True:
             if piece == 1: # Пешка
-                if (self.board[to_row][to_col] == 0 and ((to_row - from_row) == 1 and (to_col == from_col))):
+                if from_row == 1 and to_row == 3 and self.board[2][from_col] == 0:
+                    self.board[3][from_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.white = False
+                    self.black = True
+                elif (self.board[to_row][to_col] == 0 and ((to_row - from_row) == 1 and (to_col == from_col))):
                     self.board[to_row][to_col] = piece
                     self.board[from_row][from_col] = 0
                     self.black = True
@@ -88,202 +93,276 @@ class Chessboard:
                     print("Неверный ход для коня. Пожалуйста, проверьте шахматные правила.")
 
             if piece == 3: # Слон белых
-                is_move = False
+                if self.board[to_row][to_col] <= 0:
+                    is_move = False
 
-                # Проверка влево вверх
-                x, y = from_row - 1, from_col - 1
-                while x >= 0 and y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
-                    y -= 1
+                    # Проверка влево вверх
+                    x, y = from_row - 1, from_col - 1
+                    while x >= 0 and y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
+                        y -= 1
 
-                # Проверка вправо вверх
-                x, y = from_row - 1, from_col + 1
-                while x >= 0 and y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
-                    y += 1
+                    # Проверка вправо вверх
+                    x, y = from_row - 1, from_col + 1
+                    while x >= 0 and y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
+                        y += 1
 
-                # Проверка вниз влево
-                x, y = from_row + 1, from_col - 1
-                while x <= 7 and y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
-                    y -= 1
+                    # Проверка вниз влево
+                    x, y = from_row + 1, from_col - 1
+                    while x <= 7 and y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
+                        y -= 1
 
-                # Проверка вниз вправо
-                x, y = from_row + 1, from_col + 1
-                while x <= 7 and y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
-                    y += 1
+                    # Проверка вниз вправо
+                    x, y = from_row + 1, from_col + 1
+                    while x <= 7 and y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
+                        y += 1
 
-                if is_move:
-                    self.board[to_row][to_col] = piece
-                    self.board[from_row][from_col] = 0
-                    self.black = True
-                    self.white = False
-                else:
-                    print("Неверный ход для слона. Пожалуйста, проверьте шахматные правила.")
+                    if is_move:
+                        self.board[to_row][to_col] = piece
+                        self.board[from_row][from_col] = 0
+                        self.black = True
+                        self.white = False
+                    else:
+                        print("Неверный ход для слона. Пожалуйста, проверьте шахматные правила.")
 
             if piece == 4:  # Ладья
-                is_move = False
+                if self.board[to_row][to_col] <= 0:
+                    is_move = False
 
-                # Проверка влево
-                x, y = from_row, from_col - 1
-                while y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    y -= 1
+                    # Проверка влево
+                    x, y = from_row, from_col - 1
+                    while y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        y -= 1
 
-                # Проверка вправо
-                x, y = from_row, from_col + 1
-                while y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    y += 1
+                    # Проверка вправо
+                    x, y = from_row, from_col + 1
+                    while y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        y += 1
 
-                # Проверка вверх
-                x, y = from_row - 1, from_col
-                while x >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
+                    # Проверка вверх
+                    x, y = from_row - 1, from_col
+                    while x >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
 
-                # Проверка вниз
-                x, y = from_row + 1, from_col
-                while x <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
+                    # Проверка вниз
+                    x, y = from_row + 1, from_col
+                    while x <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
 
-                if is_move:
-                    self.board[to_row][to_col] = piece
-                    self.board[from_row][from_col] = 0
-                    self.black = True
-                    self.white = False
-                else:
-                    print("Неверный ход для ладьи. Пожалуйста, проверьте шахматные правила.")
+                    if is_move:
+                        self.board[to_row][to_col] = piece
+                        self.board[from_row][from_col] = 0
+                        self.black = True
+                        self.white = False
+                    else:
+                        print("Неверный ход для ладьи. Пожалуйста, проверьте шахматные правила.")
 
             if piece == 5:
-                is_move = False
+                if self.board[to_row][to_col] <= 0:
+                    is_move = False
 
-                # Проверка влево вверх
-                x, y = from_row - 1, from_col - 1
-                while x >= 0 and y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
-                    y -= 1
+                    # Проверка влево вверх
+                    x, y = from_row - 1, from_col - 1
+                    while x >= 0 and y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
+                        y -= 1
 
-                # Проверка вправо вверх
-                x, y = from_row - 1, from_col + 1
-                while x >= 0 and y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
-                    y += 1
+                    # Проверка вправо вверх
+                    x, y = from_row - 1, from_col + 1
+                    while x >= 0 and y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
+                        y += 1
 
-                # Проверка вниз влево
-                x, y = from_row + 1, from_col - 1
-                while x <= 7 and y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
-                    y -= 1
+                    # Проверка вниз влево
+                    x, y = from_row + 1, from_col - 1
+                    while x <= 7 and y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
+                        y -= 1
 
-                # Проверка вниз вправо
-                x, y = from_row + 1, from_col + 1
-                while x <= 7 and y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
-                    y += 1
+                    # Проверка вниз вправо
+                    x, y = from_row + 1, from_col + 1
+                    while x <= 7 and y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
+                        y += 1
 
-                # Проверка влево
-                x, y = from_row, from_col - 1
-                while y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    y -= 1
+                    # Проверка влево
+                    x, y = from_row, from_col - 1
+                    while y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        y -= 1
 
-                # Проверка вправо
-                x, y = from_row, from_col + 1
-                while y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    y += 1
+                    # Проверка вправо
+                    x, y = from_row, from_col + 1
+                    while y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        y += 1
 
-                # Проверка вверх
-                x, y = from_row - 1, from_col
-                while x >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
+                    # Проверка вверх
+                    x, y = from_row - 1, from_col
+                    while x >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
 
-                # Проверка вниз
-                x, y = from_row + 1, from_col
-                while x <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
+                    # Проверка вниз
+                    x, y = from_row + 1, from_col
+                    while x <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
 
-                if is_move:
+                    if is_move:
+                        self.board[to_row][to_col] = piece
+                        self.board[from_row][from_col] = 0
+                        self.black = True
+                        self.white = False
+                    
+                    else:
+                        print("Неверный ход для ферзя. Пожалуйста, проверьте шахматные правила.")
+
+            if piece == 6:
+                if (self.board[to_row][to_col] <= 0 and ((to_row - from_row) == 1 and (to_col == from_col))):
                     self.board[to_row][to_col] = piece
                     self.board[from_row][from_col] = 0
                     self.black = True
                     self.white = False
-                
+                    
+                elif (self.board[to_row][to_col] <= 0 and ((to_row - from_row) == -1 and (to_col == from_col))):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.black = True
+                    self.white = False
+
+                elif self.board[to_row][to_col] <= 0 and ((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 1)):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.black = True
+                    self.white = False
+
+                elif (self.board[to_row][to_col] == 0 and ((to_row == from_row) and (to_col - from_col) == 1)):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.black = True
+                    self.white = False
+
+                elif (self.board[to_row][to_col] == 0 and ((to_row == from_row) and (to_col - from_col) == - 1)):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.black = True
+                    self.white = False
+                # if (self.board[to_row][to_col] <= 0 and (abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 1)):
+                #     self.board[to_row][to_col] = piece
+                #     self.board[from_row][from_col] = 0
+                #     self.black = True
+                #     self.white = False
+                # # Проверка обычных ходов вперед и назад
+                # elif (self.board[to_row][to_col] <= 0 and (to_row - from_row == 1) and (to_col == from_col)):
+                #     self.board[to_row][to_col] = piece
+                #     self.board[from_row][from_col] = 0
+                #     self.black = True
+                #     self.white = False
+                # elif (self.board[to_row][to_col] <= 0 and (to_row - from_row == -1) and (to_col == from_col)):
+                #     self.board[to_row][to_col] = piece
+                #     self.board[from_row][from_col] = 0
+                #     self.black = True
+                #     self.white = False
+                # # Проверка хода влево
+                # elif (self.board[to_row][to_col] <= 0 and (to_row == from_row and to_col - from_col == -1)):
+                #     self.board[to_row][to_col] = piece
+                #     self.board[from_row][from_col] = 0
+                #     self.black = True
+                #     self.white = False
+                # # Проверка хода вправо
+                # elif (self.board[to_row][to_col] <= 0 and (to_row == from_row and to_col - from_col == 1)):
+                #     self.board[to_row][to_col] = piece
+                #     self.board[from_row][from_col] = 0
+                #     self.black = True
+                #     self.white = False
+
+
                 else:
-                    print("Неверный ход для ферзя. Пожалуйста, проверьте шахматные правила.")
+                    print('Неправильный ход для короля.')
 
         else:
-            print('Не твоя очередь ходить. Очередь черных.')
+            print('Ход черных.')
+
+        # else:
+        #     print('Не твоя очередь ходить. Очередь черных.')
 
         if self.black == True:
             if piece == -1:  # Пешка
-                if (self.board[to_row][to_col] == 0 and ((to_row - from_row) == -1 and (to_col == from_col))):
+                if from_row == 6 and to_row == 4 and self.board[5][from_col] == 0:
+                    self.board[4][from_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.white = True
+                    self.black = False
+                elif (self.board[to_row][to_col] == 0 and ((to_row - from_row) == -1 and (to_col == from_col))):
                     self.board[to_row][to_col] = piece
                     self.board[from_row][from_col] = 0
                     self.white = True
                     self.black = False
-                elif self.board[to_row][to_col] != 0 and ((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 1)):
+                elif self.board[to_row][to_col] >= 0 and ((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 1)):
                     self.board[to_row][to_col] = piece
                     self.board[from_row][from_col] = 0
                     self.white = True
@@ -301,193 +380,232 @@ class Chessboard:
                     print("Неверный ход для коня. Пожалуйста, проверьте шахматные правила.")
 
             if piece == -3: # Слон
-                is_move = False
+                if self.board[to_row][to_col] >= 0:
+                    is_move = False
 
-                # Проверка влево вверх
-                x, y = from_row - 1, from_col - 1
-                while x >= 0 and y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
-                    y -= 1
+                    # Проверка влево вверх
+                    x, y = from_row - 1, from_col - 1
+                    while x >= 0 and y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
+                        y -= 1
 
-                # Проверка вправо вверх
-                x, y = from_row - 1, from_col + 1
-                while x >= 0 and y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
-                    y += 1
+                    # Проверка вправо вверх
+                    x, y = from_row - 1, from_col + 1
+                    while x >= 0 and y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
+                        y += 1
 
-                # Проверка вниз влево
-                x, y = from_row + 1, from_col - 1
-                while x <= 7 and y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
-                    y -= 1
+                    # Проверка вниз влево
+                    x, y = from_row + 1, from_col - 1
+                    while x <= 7 and y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
+                        y -= 1
 
-                # Проверка вниз вправо
-                x, y = from_row + 1, from_col + 1
-                while x <= 7 and y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
-                    y += 1
+                    # Проверка вниз вправо
+                    x, y = from_row + 1, from_col + 1
+                    while x <= 7 and y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
+                        y += 1
 
-                if is_move:
-                    self.board[to_row][to_col] = piece
-                    self.board[from_row][from_col] = 0
-                    self.white = True
-                    self.black = False
-                else:
-                    print("Неверный ход для слона. Пожалуйста, проверьте шахматные правила.")
+                    if is_move:
+                        self.board[to_row][to_col] = piece
+                        self.board[from_row][from_col] = 0
+                        self.white = True
+                        self.black = False
+                    else:
+                        print("Неверный ход для слона. Пожалуйста, проверьте шахматные правила.")
 
             if piece == -4:  # Ладья
-                is_move = False
+                if self.board[to_row][to_col] >= 0:
+                    is_move = False
 
-                # Проверка влево
-                x, y = from_row, from_col - 1
-                while y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    y -= 1
+                    # Проверка влево
+                    x, y = from_row, from_col - 1
+                    while y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        y -= 1
 
-                # Проверка вправо
-                x, y = from_row, from_col + 1
-                while y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    y += 1
+                    # Проверка вправо
+                    x, y = from_row, from_col + 1
+                    while y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        y += 1
 
-                # Проверка вверх
-                x, y = from_row - 1, from_col
-                while x >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
+                    # Проверка вверх
+                    x, y = from_row - 1, from_col
+                    while x >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
 
-                # Проверка вниз
-                x, y = from_row + 1, from_col
-                while x <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
+                    # Проверка вниз
+                    x, y = from_row + 1, from_col
+                    while x <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
 
-                if is_move:
-                    self.board[to_row][to_col] = piece
-                    self.board[from_row][from_col] = 0
-                    self.white = True
-                    self.black = False
-                else:
-                    print("Неверный ход для ладьи. Пожалуйста, проверьте шахматные правила.")
+                    if is_move:
+                        self.board[to_row][to_col] = piece
+                        self.board[from_row][from_col] = 0
+                        self.white = True
+                        self.black = False
+                    else:
+                        print("Неверный ход для ладьи. Пожалуйста, проверьте шахматные правила.")
                 
             if piece == -5:
-                is_move = False
+                if self.board[to_row][to_col] >= 0:
+                    is_move = False
 
-                # Проверка влево вверх
-                x, y = from_row - 1, from_col - 1
-                while x >= 0 and y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
-                    y -= 1
+                    # Проверка влево вверх
+                    x, y = from_row - 1, from_col - 1
+                    while x >= 0 and y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
+                        y -= 1
 
-                # Проверка вправо вверх
-                x, y = from_row - 1, from_col + 1
-                while x >= 0 and y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
-                    y += 1
+                    # Проверка вправо вверх
+                    x, y = from_row - 1, from_col + 1
+                    while x >= 0 and y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
+                        y += 1
 
-                # Проверка вниз влево
-                x, y = from_row + 1, from_col - 1
-                while x <= 7 and y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
-                    y -= 1
+                    # Проверка вниз влево
+                    x, y = from_row + 1, from_col - 1
+                    while x <= 7 and y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
+                        y -= 1
 
-                # Проверка вниз вправо
-                x, y = from_row + 1, from_col + 1
-                while x <= 7 and y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
-                    y += 1
+                    # Проверка вниз вправо
+                    x, y = from_row + 1, from_col + 1
+                    while x <= 7 and y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
+                        y += 1
 
-                # Проверка влево
-                x, y = from_row, from_col - 1
-                while y >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    y -= 1
+                    # Проверка влево
+                    x, y = from_row, from_col - 1
+                    while y >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        y -= 1
 
-                # Проверка вправо
-                x, y = from_row, from_col + 1
-                while y <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    y += 1
+                    # Проверка вправо
+                    x, y = from_row, from_col + 1
+                    while y <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        y += 1
 
-                # Проверка вверх
-                x, y = from_row - 1, from_col
-                while x >= 0:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x -= 1
+                    # Проверка вверх
+                    x, y = from_row - 1, from_col
+                    while x >= 0:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x -= 1
 
-                # Проверка вниз
-                x, y = from_row + 1, from_col
-                while x <= 7:
-                    if x == to_row and y == to_col:
-                        is_move = True
-                    if self.board[x][y] != 0:
-                        break
-                    x += 1
+                    # Проверка вниз
+                    x, y = from_row + 1, from_col
+                    while x <= 7:
+                        if x == to_row and y == to_col:
+                            is_move = True
+                        if self.board[x][y] != 0:
+                            break
+                        x += 1
 
-                if is_move:
+                    if is_move:
+                        self.board[to_row][to_col] = piece
+                        self.board[from_row][from_col] = 0
+                        self.white = True
+                        self.black = False
+                    
+                    else:
+                        print("Неверный ход для ферзя. Пожалуйста, проверьте шахматные правила.")
+
+            if piece == -6:
+                if (self.board[to_row][to_col] <= 0 and ((to_row - from_row) == 1 and (to_col == from_col))):
                     self.board[to_row][to_col] = piece
                     self.board[from_row][from_col] = 0
-                    self.white = True
                     self.black = False
-                
+                    self.white = True
+                    
+                elif (self.board[to_row][to_col] <= 0 and ((to_row - from_row) == -1 and (to_col == from_col))):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.black = False
+                    self.white = True
+
+                elif self.board[to_row][to_col] <= 0 and ((abs(to_row - from_row) == 1) and (abs(to_col - from_col) == 1)):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.black = False
+                    self.white = True
+
+                elif (self.board[to_row][to_col] == 0 and ((to_row == from_row) and (to_col - from_col) == 1)):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.black = False
+                    self.white = True
+
+                elif (self.board[to_row][to_col] == 0 and ((to_row == from_row) and (to_col - from_col) == - 1)):
+                    self.board[to_row][to_col] = piece
+                    self.board[from_row][from_col] = 0
+                    self.black = False
+                    self.white = True
+
                 else:
-                    print("Неверный ход для ферзя. Пожалуйста, проверьте шахматные правила.")
-    
+                    print('Неправильный ход для короля.')
+
         else:
-            print('Не твоя очередь ходить. Очередь белых.')
+            print('Ход белых.')
+        # else:
+        #     print('Не твоя очередь ходить. Очередь белых.')
 
     def is_valid_input(self, position):
         # Проверка, что ввод содержит два символа: букву и цифру
